@@ -1,0 +1,5 @@
+tables=5
+columns=3
+threads=4
+rowsPerTable=10,15,8,12,7
+columnTypes=String,Integer,Date
