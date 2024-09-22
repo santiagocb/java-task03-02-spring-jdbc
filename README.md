@@ -16,3 +16,7 @@ The target of this exercise is to practice Spring JDBC with Java 17.
 2. Run psql command to create DB: `psql -h localhost -U postgres -f database.sql` and enter the password: `password`
 3. Run Main program with properly arg parameter. In this case: `java Main DatabaseConfig`
 4. Change parameters in DatabaseConfig file as needed
+
+## Output
+
+![Screenshot 2024-09-21 at 10 31 43 PM](https://github.com/user-attachments/assets/cc0bc840-7a1b-4dc1-9e8a-ed42bed27bb5)
