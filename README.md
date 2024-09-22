@@ -4,6 +4,7 @@ The target of this exercise is to practice Spring JDBC with Java 17.
 ## Features
 - Create Postgres tables named randomly according to file configuration (column number and types).
 - Populate each table with configured number of rows.
+- Usage of Properties to read from File the database settings.
 
 ## Requirements
 - Install Docker
