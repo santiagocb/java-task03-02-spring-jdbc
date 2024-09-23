@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.sql.DataSource;
 public class Main {
 
     public static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -17,13 +16,12 @@ public class Main {
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
 
-        DataSource dataSource = context.getBean(DataSource.class);
+        DatabaseSetup databaseSetup = context.getBean(DatabaseSetup.class);
 
         logger.info(String.format("Entry file name is: %s", args[0]));
         FileConfigurator config = new FileConfigurator(args[0]);
 
-        DatabaseSetup databaseSetup = new DatabaseSetup(dataSource, config);
-        var createdTables = databaseSetup.createTables();
+        var createdTables = databaseSetup.createTables(config);
 
         logger.info("------- Tables with populated Data -------");
         createdTables.forEach(logger::info);

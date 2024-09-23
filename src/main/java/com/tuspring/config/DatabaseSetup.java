@@ -1,6 +1,7 @@
 package com.tuspring.config;
 
 import com.tuspring.file.FileConfigurator;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -13,17 +14,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+@Component
 public class DatabaseSetup {
 
     private final DataSource dataSource;
-    private final FileConfigurator config;
 
-    public DatabaseSetup(DataSource dataSource, FileConfigurator fileConfigurator) {
+    public DatabaseSetup(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.config = fileConfigurator;
     }
 
-    public List<String> createTables() throws InterruptedException, ExecutionException {
+    public List<String> createTables(FileConfigurator config) throws InterruptedException, ExecutionException {
 
         ExecutorService executor = Executors.newFixedThreadPool(config.getThreads());
         List<Future<Void>> futures = new ArrayList<>();
@@ -33,7 +33,7 @@ public class DatabaseSetup {
         for (int i = 0; i < config.getTables(); i++) {
             int tableIndex = i;
             futures.add(executor.submit(() -> {
-                var tableName = createAndPopulateTable(tableIndex);
+                var tableName = createAndPopulateTable(tableIndex, config);
                 tableNames.add(tableName);
                 return null;
             }));
@@ -89,7 +89,7 @@ public class DatabaseSetup {
         }
     }
 
-    private String createAndPopulateTable(int index) throws SQLException {
+    private String createAndPopulateTable(int index, FileConfigurator config) throws SQLException {
         String tableName = "table_" + UUID.randomUUID().toString().replace("-", "_");
 
         try (Connection conn = dataSource.getConnection()) {
